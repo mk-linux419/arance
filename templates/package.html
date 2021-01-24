@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ pkg.name }}</h1>
+<ul class="list-group list-group-flush">
+    <li class="list-group-item"> <a>Architecture: {{ pkg.arch }}</a></li>
+    <li class="list-group-item"><a>Description: {{ pkg.desc }}</a></li>
+    <li class="list-group-item"><a>Version: {{ pkg.version }}</a></li>
+    
+</ul>
+<div class="row">
+    <div class="col">
+        <div class="card">
+            {% set depends = pkg.depends %}
+            <h5 class="card-header">Dependencies ({{ depends | length }})</h5>
+            <div class="card-body">
+                <div class="row overflow-auto" style="max-height: 50vh;">
+                    {% for depend in depends %}
+                        {% set depend_replaced = depend | regex_replace(">=.*$", "") | regex_replace("=.*$", "") %}
+                        <div class="col-md-6">
+                            <a href="/package/{{ depend_replaced }}" >{{ depend_replaced }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col">
+        <div class="card">
+            {% set required = pkg.compute_requiredby() %}
+            <h5 class="card-header">Required By ({{ required | length }})</h5>
+            <div class="card-body">
+                <div class="row overflow-auto" style="max-height: 50vh;">
+                    {% for require in required %}
+                        {% set require_replaced = require | regex_replace(">=.*$", "") | regex_replace("=.*$", "") %}
+                        <div class="col-md-6">
+                            <a href="/package/{{ require_replaced }}" >{{ require_replaced }}</a>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

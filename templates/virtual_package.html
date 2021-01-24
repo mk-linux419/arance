@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>{{ name }} (Virtual Package)</h1>
+<div class="card">
+    <h5 class="card-header">Provided By ({{ pkgs | length }})</h5>
+    <div class="card-body">
+        <div class="row overflow-auto" style="max-height: 50vh;">
+            {% for pkg in pkgs %}
+                {% set pkg_replaced = pkg | regex_replace(">=.*$", "") | regex_replace("=.*$", "") %}
+                <div class="col-md-3">
+                    <a href="/package/{{ pkg_replaced }}" >{{  pkg_replaced }}</a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

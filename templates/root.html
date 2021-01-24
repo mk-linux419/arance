@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="row">
+    {% for pkg in pkgs %}
+    <div class="col-md-3">
+        <div class="card" style="width: 20rem;">
+            <div class="card-body">
+                <h5 class="card-title">{{ pkg.name }}</h5>
+                <p class="card-text">{{ pkg.desc }}</p>
+                <a href="/package/{{ pkg.name }}" class="btn btn-primary">Install</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
